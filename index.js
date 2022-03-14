@@ -1,4 +1,4 @@
-const audioUrl = "fart.mp3";
+const audioUrl = "sound.mp3";
 const playButton = document.querySelector('#play');
 
 (async () => {
