@@ -6,8 +6,10 @@ using namespace emscripten;
 class ProcessorPerf {
     public:
         ProcessorPerf() {}
-        float processPerf(float input) {
-            return input + 1;
+        void processPerf(float* input, float* output, int channel) {
+            for (int i = 0; i < channel; i++) {
+                output[i] = input[i];
+            }
         }
 };
 
