@@ -1,4 +1,4 @@
-const audioUrl = "sound.mp3";
+const audioUrl = "./BasketCaseGreendayriffDI.mp3";
 const playButton = document.querySelector('#play');
 
 (async () => {
@@ -6,10 +6,10 @@ const playButton = document.querySelector('#play');
     let decodedAudioBuffer;
     let audioArrayBuffer;
 
-    var contexteAudio = new(window.AudioContext || window.webkitAudioContext)();
+    var contexteAudio = new (window.AudioContext || window.webkitAudioContext)();
     contexteAudio.audioWorklet.addModule("processor.js");
 
-    const response = await fetch("./BasketCaseGreendayriffDI.mp3");
+    const response = await fetch(audioUrl);
     audioArrayBuffer = await response.arrayBuffer();
     decodedAudioBuffer = await contexteAudio.decodeAudioData(audioArrayBuffer);
 
