@@ -5,11 +5,11 @@ const playButton = document.querySelector('#play');
 
     let decodedAudioBuffer;
     let audioArrayBuffer;
-    
+
     var contexteAudio = new(window.AudioContext || window.webkitAudioContext)();
     contexteAudio.audioWorklet.addModule("processor.js");
-    
-    const response = await fetch(audioUrl);
+
+    const response = await fetch("./BasketCaseGreendayriffDI.mp3");
     audioArrayBuffer = await response.arrayBuffer();
     decodedAudioBuffer = await contexteAudio.decodeAudioData(audioArrayBuffer);
 
