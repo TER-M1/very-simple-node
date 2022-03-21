@@ -18,9 +18,9 @@ public:
         // for |input_buffer| and |output_buffer|.
         for (unsigned channel = 0; channel < channel_count; ++channel)
         {
-            float *destination = output_buffer + channel * kRenderQuantumFrames;
-            float *source = input_buffer + channel * kRenderQuantumFrames;
-            memcpy(destination, source, kBytesPerChannel);
+            output_buffer = output_buffer + channel * kRenderQuantumFrames;
+            input_buffer = input_buffer + channel * kRenderQuantumFrames;
+            memcpy(output_buffer, input_buffer, kBytesPerChannel);
         }
     }
 };

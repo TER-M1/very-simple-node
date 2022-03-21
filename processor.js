@@ -14,12 +14,18 @@ class SimpleProcessor extends AudioWorkletProcessor {
         this._processPerf = new Module.ProcessorPerf();
     }
 
+    /**
+ * @param {Float32Array[][]} inputs
+ * @param {Float32Array[][]} outputs
+ * @param {Record<string, Float32Array>} parameters
+ */
     process(inputs, outputs, parameters) {
         // Use the 1st input and output only to make the example simpler. |input|
         // and |output| here have the similar structure with the AudioBuffer
         // interface. (i.e. An array of Float32Array)
         let input = inputs[0];
         let output = outputs[0];
+        const bufferSize = outputs[0][0].length;
 
         // For this given render quantum, the channel count of the node is fixed
         // and identical for the input and the output.
@@ -31,16 +37,14 @@ class SimpleProcessor extends AudioWorkletProcessor {
         this._heapOutputBuffer.adaptChannel(channelCount);
 
         // Copy-in, process and copy-out.
-        for (let c1 = 0; c1 < channelCount; c1++) {
-            for (let channel = 0; channel < channelCount; ++channel) {
-                this._heapInputBuffer.getChannelData(channel).set(input[channel]);
-            }
-            this._processPerf.processPerf(this._heapInputBuffer.getHeapAddress(),
-                this._heapOutputBuffer.getHeapAddress(),
-                channelCount);
-            for (let channel = 0; channel < channelCount; ++channel) {
-                output[channel].set(this._heapOutputBuffer.getChannelData(channel));
-            }
+        for (let channel = 0; channel < channelCount; ++channel) {
+            this._heapInputBuffer.getChannelData(channel).set(input[channel]);
+        }
+        this._processPerf.processPerf(this._heapInputBuffer.getHeapAddress(),
+            this._heapOutputBuffer.getHeapAddress(),
+            channelCount);
+        for (let channel = 0; channel < channelCount; ++channel) {
+            output[channel].set(this._heapOutputBuffer.getChannelData(channel));
         }
         return true;
     }
